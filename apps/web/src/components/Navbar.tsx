@@ -5,6 +5,7 @@ import { useTheme } from "@/features/theme/ThemeProvider";
 
 export function Navbar() {
   const { theme, toggle } = useTheme();
+  const isDark = theme === "dark";
   const links = [
     { label: "Inicio", href: "/" },
     { label: "Blog", href: "/blog" },
@@ -122,8 +123,38 @@ export function Navbar() {
             justifyContent: "center",
             color: "var(--text-secondary)",
           }}
+          aria-label={isDark ? "Cambiar a modo claro" : "Cambiar a modo oscuro"}
         >
-          {theme === "dark" ? "☀️" : "🌙"}
+          {isDark ? (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <circle cx="12" cy="12" r="4.2" />
+              <path d="M12 2.2v2.1M12 19.7v2.1M4.3 4.3l1.5 1.5M18.2 18.2l1.5 1.5M2.2 12h2.1M19.7 12h2.1M4.3 19.7l1.5-1.5M18.2 5.8l1.5-1.5" />
+            </svg>
+          ) : (
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M21 12.8A8.8 8.8 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" />
+            </svg>
+          )}
         </button>
       </div>
     </header>
