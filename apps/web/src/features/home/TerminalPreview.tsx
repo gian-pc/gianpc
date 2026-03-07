@@ -43,16 +43,18 @@ export function TerminalPreview() {
     <div
       style={{
         borderRadius: "var(--radius-lg)",
-        border: "1px solid var(--border)",
-        background: "var(--surface)",
-        boxShadow: "0 20px 40px rgba(0,0,0,0.15)",
+        border: "1px solid var(--terminal-border)",
+        background: "var(--terminal-bg)",
+        boxShadow: "var(--terminal-shadow)",
         overflow: "hidden",
+        backdropFilter: "blur(6px)",
+        WebkitBackdropFilter: "blur(6px)",
       }}
     >
       <div
         style={{
           height: 36,
-          borderBottom: "1px solid var(--border)",
+          borderBottom: "1px solid var(--terminal-border)",
           display: "flex",
           alignItems: "center",
           gap: 8,

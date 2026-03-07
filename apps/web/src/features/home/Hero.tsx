@@ -1,10 +1,13 @@
 // /Users/admin/Desktop/projects/portfolio/apps/web/src/features/home/Hero.tsx
+import { HeroMapBackground } from "./HeroMapBackground";
 import { TerminalPreview } from "./TerminalPreview";
 
 export function Hero() {
   return (
     <section
       style={{
+        position: "relative",
+        overflow: "hidden",
         padding: "140px 24px 80px",
         maxWidth: 1100,
         margin: "0 auto",
@@ -14,26 +17,11 @@ export function Hero() {
         alignItems: "center",
       }}
     >
-      <div style={{ flex: "1 1 340px" }}>
-        {/* Avatar */}
-        <div
-          style={{
-            width: 56,
-            height: 56,
-            borderRadius: 14,
-            background: "linear-gradient(135deg,#d91f4e,#ef476f)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 18,
-            fontWeight: 900,
-            color: "#fff",
-            marginBottom: 28,
-            boxShadow: "0 8px 20px rgba(217,31,78,0.22)",
-          }}
-        >
-          {"</>"}
-        </div>
+      <HeroMapBackground />
+
+      <div style={{ flex: "1 1 340px", position: "relative", zIndex: 1 }}>
+        {/* Preserva el espacio del avatar eliminado para mantener el layout original */}
+        <div aria-hidden="true" style={{ height: 56, marginBottom: 28 }} />
 
         {/* Badge */}
         <div
@@ -131,7 +119,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div style={{ flex: "1 1 360px", minWidth: 0 }}>
+      <div style={{ flex: "1 1 360px", minWidth: 0, position: "relative", zIndex: 1 }}>
         <TerminalPreview />
       </div>
     </section>
