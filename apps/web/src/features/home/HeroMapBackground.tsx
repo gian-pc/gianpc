@@ -1,5 +1,5 @@
 import path from "node:path";
-import { readFile } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import type { CSSProperties } from "react";
 
 const MAP_SHIFT_X_PERCENT = 13.5;
@@ -100,11 +100,11 @@ function extractPaths(json: GeoFeatureCollection): string[] {
     .filter(Boolean);
 }
 
-async function getWorldPaths(): Promise<string[]> {
+function getWorldPaths(): string[] {
   // Prefer local file to avoid runtime network dependency.
   for (const filePath of LOCAL_WORLD_GEOJSON_CANDIDATES) {
     try {
-      const raw = await readFile(filePath, "utf8");
+      const raw = readFileSync(filePath, "utf8");
       const json = JSON.parse(raw) as GeoFeatureCollection;
       const paths = extractPaths(json);
       if (paths.length) {
@@ -119,8 +119,10 @@ async function getWorldPaths(): Promise<string[]> {
   return FALLBACK_PATHS;
 }
 
-export async function HeroMapBackground() {
-  const paths = await getWorldPaths();
+const WORLD_PATHS = getWorldPaths();
+
+export function HeroMapBackground() {
+  const paths = WORLD_PATHS;
   const [limaX, limaY] = projectPoint(LIMA_COORDS);
   const limaLeftPercent = (limaX / MAP_WIDTH) * 100;
   const limaTopPercent = (limaY / MAP_HEIGHT) * 100;
@@ -135,7 +137,7 @@ export async function HeroMapBackground() {
       <svg
         className="hero-map-svg"
         viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
-        preserveAspectRatio="none"
+        preserveAspectRatio="xMidYMid slice"
       >
         <g className="hero-map-masses">
           {paths.map((d, index) => (
@@ -152,7 +154,6 @@ export async function HeroMapBackground() {
       >
         <span className="hero-map-ring" />
         <span className="hero-map-dot" />
-        <span className="hero-map-label mono">Lima</span>
       </div>
     </div>
   );
