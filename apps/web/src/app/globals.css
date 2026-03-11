@@ -517,6 +517,198 @@ html:not(.dark) .hero-terminal-spot {
   }
 }
 
+.cost-card {
+  position: relative;
+  z-index: 1;
+  border-radius: 24px;
+  border: 1px solid color-mix(in srgb, var(--border) 28%, transparent);
+  padding: 18px 18px 20px;
+  background: color-mix(in srgb, var(--surface) 74%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 24px 58px rgba(3, 8, 22, 0.4);
+}
+
+.dark .cost-card {
+  border-color: rgba(59, 72, 108, 0.24);
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.62) 0%, rgba(17, 24, 39, 0.66) 100%);
+}
+
+.cost-card-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.cost-card-head h3 {
+  font-size: clamp(18px, 1.35vw, 24px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cost-card-brand-logo {
+  width: 36px;
+  height: 15px;
+  color: color-mix(in srgb, var(--text-primary) 86%, transparent);
+  flex-shrink: 0;
+}
+
+.cost-card-updated {
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 11px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border) 30%, transparent);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.cost-kpis {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.cost-kpi-card {
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--border) 30%, transparent);
+  background: color-mix(in srgb, var(--surface-soft) 68%, transparent);
+  padding: 14px;
+}
+
+.dark .cost-kpi-card {
+  border-color: rgba(47, 62, 93, 0.24);
+  background: rgba(13, 23, 44, 0.36);
+}
+
+.cost-kpi-card p {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.cost-kpi-card strong {
+  margin-top: 7px;
+  display: block;
+  font-size: clamp(21px, 1.55vw, 30px);
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.cost-services {
+  margin-top: 12px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--border) 30%, transparent);
+  background: color-mix(in srgb, var(--surface-soft) 68%, transparent);
+  padding: 12px;
+}
+
+.dark .cost-services {
+  border-color: rgba(47, 62, 93, 0.24);
+  background: rgba(12, 22, 43, 0.36);
+}
+
+.cost-services-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.cost-services-head p {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.cost-services-head span {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.cost-service-item + .cost-service-item {
+  margin-top: 9px;
+}
+
+.cost-service-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cost-service-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cost-service-amount {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.cost-service-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 9px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, var(--border) 24%, transparent);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.cost-service-icon-lambda {
+  border-color: rgba(249, 115, 22, 0.2);
+  color: #fb923c;
+  background: rgba(249, 115, 22, 0.12);
+}
+
+.cost-service-icon-cloudfront {
+  border-color: rgba(56, 189, 248, 0.2);
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+}
+
+.cost-service-icon-s3 {
+  border-color: rgba(16, 185, 129, 0.2);
+  color: #34d399;
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.cost-service-bar {
+  margin-top: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--border) 20%, transparent);
+  overflow: hidden;
+}
+
+.dark .cost-service-bar {
+  background: rgba(51, 65, 85, 0.22);
+}
+
+.cost-service-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #a855f7 0%, #ec4899 100%);
+}
+
 .projects-section {
   padding: 56px 24px 92px;
 }
@@ -1205,6 +1397,53 @@ html:not(.dark) .hero-terminal-spot {
   .hero-grid {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+
+  .cost-card {
+    padding: 14px 12px 14px;
+    border-radius: 18px;
+  }
+
+  .cost-card-brand-logo {
+    width: 32px;
+    height: 13px;
+  }
+
+  .cost-card-head h3 {
+    font-size: 22px;
+  }
+
+  .cost-card-updated {
+    font-size: 10px;
+    min-height: 26px;
+    padding: 0 10px;
+  }
+
+  .cost-kpis {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .cost-kpi-card {
+    padding: 12px;
+  }
+
+  .cost-kpi-card strong {
+    font-size: 24px;
+  }
+
+  .cost-services-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .cost-service-main {
+    font-size: 12px;
+  }
+
+  .cost-service-amount {
+    font-size: 11px;
   }
 
   .hero-kicker {

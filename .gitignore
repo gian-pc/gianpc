@@ -3,3 +3,7 @@ node_modules/
 .next/
 .env*
 dist/
+infra/terraform/.terraform/
+infra/terraform/*.tfstate
+infra/terraform/*.tfstate.*
+infra/terraform/*.tfplan

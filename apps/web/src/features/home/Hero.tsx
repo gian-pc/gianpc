@@ -1,4 +1,4 @@
-import { TerminalPreview } from "./TerminalPreview";
+import { CostControlCard } from "./CostControlCard";
 
 export function Hero() {
   return (
@@ -30,7 +30,7 @@ export function Hero() {
         <div className="hero-terminal-wrap">
           <div className="hero-terminal-spot hero-terminal-spot-left" />
           <div className="hero-terminal-spot hero-terminal-spot-right" />
-          <TerminalPreview />
+          <CostControlCard />
         </div>
       </div>
     </section>
