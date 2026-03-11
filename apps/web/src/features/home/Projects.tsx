@@ -37,15 +37,6 @@ const projects: Project[] = [
     href: "https://github.com/gian-pc",
     fallbackLabel: "PAY",
   },
-  {
-    title: "Analytics Backend",
-    description:
-      "Servicio de ingesta y procesamiento para métricas de negocio, diseñado para dashboards y monitoreo operativo en tiempo real.",
-    preview: "GET /api/v1/metrics",
-    tech: ["Java", "Microservices", "REST APIs"],
-    href: "https://github.com/gian-pc",
-    fallbackLabel: "API",
-  },
 ];
 
 export function Projects() {
