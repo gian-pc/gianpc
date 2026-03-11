@@ -35,7 +35,10 @@ const projects: Project[] = [
     preview: "event -> payment.confirmed",
     tech: ["Spring Boot", "Docker", "AWS"],
     href: "https://github.com/gian-pc",
-    fallbackLabel: "PAY",
+    media: {
+      light: "/projects/opsbackend.png",
+      dark: "/projects/opsbackend.png",
+    },
   },
 ];
 
