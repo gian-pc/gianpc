@@ -1,10 +1,12 @@
 "use client";
 
 import { useTheme } from "@/features/theme/ThemeProvider";
+import { Language } from "@/features/i18n/LanguageProvider";
+import { useLanguage } from "@/features/i18n/LanguageProvider";
 
 type Project = {
-  title: string;
-  description: string;
+  title: Record<Language, string>;
+  description: Record<Language, string>;
   preview: string;
   tech: string[];
   href: string;
@@ -17,9 +19,14 @@ type Project = {
 
 const projects: Project[] = [
   {
-    title: "RetainAI Platform",
-    description:
-      "Plataforma para predicción de churn con backend en Java, servicio ML y visualización geográfica para decisiones comerciales.",
+    title: {
+      es: "RetainAI Platform",
+      en: "RetainAI Platform",
+    },
+    description: {
+      es: "Plataforma para predicción de churn con backend en Java, servicio ML y visualización geográfica para decisiones comerciales.",
+      en: "Churn prediction platform with Java backend, ML service, and geospatial insights for business decisions.",
+    },
     preview: "POST /api/v1/churn/predict",
     tech: ["Java", "Spring Boot", "FastAPI", "PostgreSQL", "Mapbox", "ElevenLabs", "Gemini"],
     href: "https://github.com/gian-pc/retainai",
@@ -29,9 +36,14 @@ const projects: Project[] = [
     },
   },
   {
-    title: "Payment Microservice",
-    description:
-      "Microservicio desacoplado de pagos con eventos de confirmación, trazabilidad y contratos API orientados a integración empresarial.",
+    title: {
+      es: "Payment Microservice",
+      en: "Payment Microservice",
+    },
+    description: {
+      es: "Microservicio desacoplado de pagos con eventos de confirmación, trazabilidad y contratos API orientados a integración empresarial.",
+      en: "Decoupled payment microservice with confirmation events, traceability, and API contracts for enterprise integrations.",
+    },
     preview: "event -> payment.confirmed",
     tech: ["Spring Boot", "Docker", "AWS"],
     href: "https://github.com/gian-pc",
@@ -44,26 +56,29 @@ const projects: Project[] = [
 
 export function Projects() {
   const { theme } = useTheme();
+  const { language } = useLanguage();
 
   return (
     <section id="projects" className="projects-section">
       <div className="container-shell">
         <div className="projects-header">
           <div>
-            <p className="projects-kicker">Proyectos</p>
+            <p className="projects-kicker">{language === "es" ? "Proyectos" : "Projects"}</p>
             <h2 className="projects-title">Backend Projects</h2>
           </div>
-          <span className="projects-meta">APIs · Microservices · Cloud</span>
+          <span className="projects-meta">
+            {language === "es" ? "APIs · Microservicios · Cloud" : "APIs · Microservices · Cloud"}
+          </span>
         </div>
 
         <div className="projects-grid">
           {projects.map((project) => (
-            <article key={project.title} className="project-card">
+            <article key={project.href + project.preview} className="project-card">
               <div className="project-media">
                 {project.media ? (
                   <img
                     src={theme === "dark" ? project.media.dark : project.media.light}
-                    alt={project.title}
+                    alt={project.title[language]}
                     className="project-image"
                   />
                 ) : (
@@ -83,19 +98,23 @@ export function Projects() {
                 </div>
 
                 <div className="project-title-row">
-                  <h3 className="project-title">{project.title}</h3>
+                  <h3 className="project-title">{project.title[language]}</h3>
                   <a
                     href={project.href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="project-link project-link-icon"
-                    aria-label={`Ver ${project.title} en GitHub`}
+                    aria-label={
+                      language === "es"
+                        ? `Ver ${project.title[language]} en GitHub`
+                        : `View ${project.title[language]} on GitHub`
+                    }
                     title="GitHub"
                   >
                     <GitHubIcon />
                   </a>
                 </div>
-                <p className="project-description">{project.description}</p>
+                <p className="project-description">{project.description[language]}</p>
               </div>
             </article>
           ))}

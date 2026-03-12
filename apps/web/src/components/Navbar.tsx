@@ -1,25 +1,35 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/features/theme/ThemeProvider";
-
-const navLinks = [
-  { label: "Inicio", href: "/" },
-  { label: "Proyectos", href: "/#projects" },
-  { label: "Contacto", href: "/#contact" },
-];
+import { useLanguage } from "@/features/i18n/LanguageProvider";
 
 export function Navbar() {
   const { theme, toggle } = useTheme();
+  const { language, toggleLanguage } = useLanguage();
   const pathname = usePathname();
-  const [lang, setLang] = useState<"ES" | "EN">("ES");
+  const navLinks =
+    language === "es"
+      ? [
+          { label: "Inicio", href: "/" },
+          { label: "Proyectos", href: "/#projects" },
+          { label: "Contacto", href: "/#contact" },
+        ]
+      : [
+          { label: "Home", href: "/" },
+          { label: "Projects", href: "/#projects" },
+          { label: "Contact", href: "/#contact" },
+        ];
 
   return (
     <header className="nav-shell">
       <div className="container-shell nav-inner">
-        <Link href="/" className="brand-link" aria-label="Ir al inicio">
+        <Link
+          href="/"
+          className="brand-link"
+          aria-label={language === "es" ? "Ir al inicio" : "Go to home"}
+        >
           <img src="/avatar.png" alt="gianpc" className="brand-avatar" />
           <span className="brand-name">gianpc</span>
         </Link>
@@ -38,14 +48,18 @@ export function Navbar() {
 
           <div className="nav-controls">
             <button
-              onClick={() => setLang((prev) => (prev === "ES" ? "EN" : "ES"))}
+              onClick={toggleLanguage}
               className="lang-toggle"
-              aria-label="Cambiar idioma"
+              aria-label={language === "es" ? "Cambiar idioma" : "Change language"}
             >
-              {lang}
+              {language.toUpperCase()}
             </button>
 
-            <button onClick={toggle} className="theme-toggle" aria-label="Cambiar tema">
+            <button
+              onClick={toggle}
+              className="theme-toggle"
+              aria-label={language === "es" ? "Cambiar tema" : "Change theme"}
+            >
               {theme === "dark" ? <MoonIcon /> : <SunIcon />}
             </button>
           </div>

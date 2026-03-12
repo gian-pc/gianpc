@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/features/theme/ThemeProvider";
+import { LanguageProvider } from "@/features/i18n/LanguageProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
@@ -28,9 +29,11 @@ export default function RootLayout({
     <html lang="es" className="dark" suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <Navbar />
-          {children}
-          <Footer />
+          <LanguageProvider>
+            <Navbar />
+            {children}
+            <Footer />
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>
