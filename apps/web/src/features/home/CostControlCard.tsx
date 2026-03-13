@@ -63,7 +63,7 @@ export function CostControlCard() {
           accumulated: "Acumulado",
           forecast: "Proyección",
           servicesLabel: "Top servicios",
-          impactLabel: "Mayor impacto en costo",
+          impactLabel: "Costo por servicio",
           ceApi: "CE API",
         }
       : {
@@ -75,7 +75,7 @@ export function CostControlCard() {
           accumulated: "Accumulated",
           forecast: "Forecast",
           servicesLabel: "Top services",
-          impactLabel: "Highest cost impact",
+          impactLabel: "Cost by service",
           ceApi: "CE API",
         };
 
