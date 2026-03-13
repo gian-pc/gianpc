@@ -131,13 +131,13 @@ pre,
 .nav-right {
   display: inline-flex;
   align-items: center;
-  gap: 22px;
+  gap: 30px;
 }
 
 .nav-links {
   display: inline-flex;
   align-items: center;
-  gap: 34px;
+  gap: 30px;
 }
 
 .nav-link {
@@ -160,7 +160,7 @@ pre,
 .nav-controls {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
 }
 
 .lang-toggle,

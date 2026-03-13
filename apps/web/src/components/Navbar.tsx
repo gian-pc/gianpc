@@ -2,25 +2,54 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useTheme } from "@/features/theme/ThemeProvider";
 import { useLanguage } from "@/features/i18n/LanguageProvider";
+
+type NavKey = "inicio" | "projects" | "contact";
 
 export function Navbar() {
   const { theme, toggle } = useTheme();
   const { language, toggleLanguage } = useLanguage();
   const pathname = usePathname();
+  const [activeSection, setActiveSection] = useState<NavKey>("inicio");
   const navLinks =
     language === "es"
       ? [
-          { label: "Inicio", href: "/" },
-          { label: "Proyectos", href: "/#projects" },
-          { label: "Contacto", href: "/#contact" },
+          { key: "inicio" as const, label: "Inicio", href: "/#inicio" },
+          { key: "projects" as const, label: "Proyectos", href: "/#projects" },
+          { key: "contact" as const, label: "Contacto", href: "/#contact" },
         ]
       : [
-          { label: "Home", href: "/" },
-          { label: "Projects", href: "/#projects" },
-          { label: "Contact", href: "/#contact" },
+          { key: "inicio" as const, label: "Home", href: "/#inicio" },
+          { key: "projects" as const, label: "Projects", href: "/#projects" },
+          { key: "contact" as const, label: "Contact", href: "/#contact" },
         ];
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const syncActiveFromHash = () => {
+      const hash = window.location.hash.toLowerCase();
+      if (hash === "#projects") {
+        setActiveSection("projects");
+        return;
+      }
+      if (hash === "#contact") {
+        setActiveSection("contact");
+        return;
+      }
+      setActiveSection("inicio");
+    };
+
+    syncActiveFromHash();
+    window.addEventListener("hashchange", syncActiveFromHash);
+    window.addEventListener("popstate", syncActiveFromHash);
+    return () => {
+      window.removeEventListener("hashchange", syncActiveFromHash);
+      window.removeEventListener("popstate", syncActiveFromHash);
+    };
+  }, [pathname]);
 
   return (
     <header className="nav-shell">
@@ -37,9 +66,14 @@ export function Navbar() {
         <div className="nav-right">
           <nav className="nav-links" aria-label="Principal">
             {navLinks.map((link) => {
-              const isActive = link.href === "/" && pathname === "/";
+              const isActive = pathname === "/" && activeSection === link.key;
               return (
-                <Link key={link.href} href={link.href} className={isActive ? "nav-link is-active" : "nav-link"}>
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={isActive ? "nav-link is-active" : "nav-link"}
+                  onClick={() => setActiveSection(link.key)}
+                >
                   {link.label}
                 </Link>
               );
