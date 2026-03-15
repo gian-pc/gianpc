@@ -89,6 +89,7 @@ export function Navbar() {
                   key={link.href}
                   href={link.href}
                   className={isActive ? "nav-link is-active" : "nav-link"}
+                  aria-current={isActive ? "page" : undefined}
                   onClick={() => setActiveSection(link.key)}
                 >
                   {link.label}
