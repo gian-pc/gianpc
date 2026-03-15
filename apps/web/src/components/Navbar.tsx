@@ -12,7 +12,7 @@ export function Navbar() {
   const { theme, toggle } = useTheme();
   const { language, toggleLanguage } = useLanguage();
   const pathname = usePathname();
-  const [activeSection, setActiveSection] = useState<NavKey>("inicio");
+  const [activeSection, setActiveSection] = useState<NavKey | null>(null);
   const navLinks =
     language === "es"
       ? [
@@ -27,27 +27,44 @@ export function Navbar() {
         ];
 
   useEffect(() => {
-    if (pathname !== "/") return;
+    const resolveActiveSection = () => {
+      if (pathname !== "/") {
+        setActiveSection(null);
+        return;
+      }
 
-    const syncActiveFromHash = () => {
       const hash = window.location.hash.toLowerCase();
-      if (hash === "#projects") {
-        setActiveSection("projects");
-        return;
-      }
-      if (hash === "#contact") {
-        setActiveSection("contact");
-        return;
-      }
-      setActiveSection("inicio");
+      if (hash === "#projects") setActiveSection("projects");
+      else if (hash === "#contact") setActiveSection("contact");
+      else setActiveSection("inicio");
     };
 
-    syncActiveFromHash();
-    window.addEventListener("hashchange", syncActiveFromHash);
-    window.addEventListener("popstate", syncActiveFromHash);
+    const originalPushState = window.history.pushState;
+    const originalReplaceState = window.history.replaceState;
+
+    window.history.pushState = function (...args) {
+      const result = originalPushState.apply(window.history, args);
+      window.dispatchEvent(new Event("locationchange"));
+      return result;
+    };
+
+    window.history.replaceState = function (...args) {
+      const result = originalReplaceState.apply(window.history, args);
+      window.dispatchEvent(new Event("locationchange"));
+      return result;
+    };
+
+    resolveActiveSection();
+    window.addEventListener("hashchange", resolveActiveSection);
+    window.addEventListener("popstate", resolveActiveSection);
+    window.addEventListener("locationchange", resolveActiveSection);
+
     return () => {
-      window.removeEventListener("hashchange", syncActiveFromHash);
-      window.removeEventListener("popstate", syncActiveFromHash);
+      window.history.pushState = originalPushState;
+      window.history.replaceState = originalReplaceState;
+      window.removeEventListener("hashchange", resolveActiveSection);
+      window.removeEventListener("popstate", resolveActiveSection);
+      window.removeEventListener("locationchange", resolveActiveSection);
     };
   }, [pathname]);
 
