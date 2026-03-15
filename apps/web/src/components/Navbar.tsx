@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTheme } from "@/features/theme/ThemeProvider";
@@ -76,7 +77,7 @@ export function Navbar() {
           className="brand-link"
           aria-label={language === "es" ? "Ir al inicio" : "Go to home"}
         >
-          <img src="/avatar.png" alt="gianpc" className="brand-avatar" />
+          <Image src="/avatar.png" alt="gianpc" width={44} height={44} className="brand-avatar" />
           <span className="brand-name">gianpc</span>
         </Link>
 

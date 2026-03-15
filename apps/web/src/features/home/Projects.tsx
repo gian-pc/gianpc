@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useTheme } from "@/features/theme/ThemeProvider";
 import { Language } from "@/features/i18n/LanguageProvider";
 import { useLanguage } from "@/features/i18n/LanguageProvider";
@@ -88,9 +89,11 @@ export function Projects() {
                   title={language === "es" ? "Ver repositorio" : "View repository"}
                 >
                   {project.media ? (
-                    <img
+                    <Image
                       src={theme === "dark" ? project.media.dark : project.media.light}
                       alt={project.title[language]}
+                      fill
+                      sizes="(max-width: 960px) 100vw, 50vw"
                       className="project-image"
                     />
                   ) : (
