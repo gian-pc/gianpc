@@ -45,9 +45,6 @@ export function TerminalPreview() {
       timeoutId = setTimeout(() => typeLine(lineIndex + 1, 0), 180);
     };
 
-    setVisibleLines(lines.map(() => ""));
-    setCursorLine(0);
-    setIsFinished(false);
     timeoutId = setTimeout(() => typeLine(0, 0), 180);
 
     return () => {
