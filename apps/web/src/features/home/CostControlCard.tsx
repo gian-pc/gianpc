@@ -144,7 +144,7 @@ export function CostControlCard() {
       });
   }, [data]);
 
-  const maxAmount = Math.max(1, ...services.map((s) => s.amount));
+  const maxAmount = Math.max(...services.map((s) => s.amount), 0);
 
   const updatedLabel = data?.updatedAt
     ? new Intl.DateTimeFormat(language === "es" ? "es-PE" : "en-US", {
@@ -195,7 +195,7 @@ export function CostControlCard() {
         </div>
 
         {services.map((service) => {
-          const ratio = Math.max(8, (service.amount / maxAmount) * 100);
+          const ratio = maxAmount > 0 ? (service.amount / maxAmount) * 100 : 0;
 
           return (
             <div key={`${service.name}-${service.amount}`} className="cost-service-item">
