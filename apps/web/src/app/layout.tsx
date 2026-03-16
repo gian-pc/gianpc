@@ -6,20 +6,46 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "gianpc",
-  description: "Backend Engineer especializado en Java, Spring Boot y AWS Serverless.",
-  keywords: ["Java", "Backend", "AWS", "Spring Boot", "Next.js"],
+  metadataBase: new URL("https://gianpc.com"),
+  title: {
+    default: "gianpc | Java Backend Developer",
+    template: "%s | gianpc",
+  },
+  description: "Java Backend Developer especializado en Spring Boot, APIs REST y AWS.",
+  keywords: [
+    "Java Backend Developer",
+    "Spring Boot",
+    "APIs REST",
+    "AWS",
+    "Microservices",
+    "Backend Engineer Peru",
+  ],
   authors: [{ name: "Gian PC" }],
+  alternates: {
+    canonical: "/",
+  },
   icons: {
     icon: "/icon.svg",
   },
   openGraph: {
-    title: "gianpc",
-    description: "Backend Engineer especializado en Java, Spring Boot y AWS Serverless.",
+    title: "gianpc | Java Backend Developer",
+    description: "Portfolio de Java Backend Developer con foco en Spring Boot, APIs REST y AWS.",
     url: "https://gianpc.com",
     siteName: "gianpc.com",
     locale: "es_PE",
     type: "website",
+    images: [
+      {
+        url: "/avatar.png",
+        alt: "gianpc - Java Backend Developer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "gianpc | Java Backend Developer",
+    description: "Portfolio de Java Backend Developer con foco en Spring Boot, APIs REST y AWS.",
+    images: ["/avatar.png"],
   },
 };
 
