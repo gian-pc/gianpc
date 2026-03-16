@@ -15,9 +15,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-cover.png",
+        url: "/og-cover.jpg?v=2",
         width: 1200,
         height: 630,
+        type: "image/jpeg",
         alt: "gianpc portfolio",
       },
     ],
