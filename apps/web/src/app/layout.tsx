@@ -36,7 +36,9 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og-cover.svg",
+        url: "/og-cover.png",
+        width: 1200,
+        height: 630,
         alt: "gianpc - Java Backend Developer",
       },
     ],
@@ -45,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "gianpc | Java Backend Developer",
     description: "Portfolio de Java Backend Developer con foco en Spring Boot, APIs REST y AWS.",
-    images: ["/og-cover.svg"],
+    images: ["/og-cover.png"],
   },
 };
 
