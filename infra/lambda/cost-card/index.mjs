@@ -105,7 +105,7 @@ export const handler = async () => {
     .sort((a, b) => b.amount - a.amount)
     .slice(0, 5);
 
-  // 3) Forecast end of month
+  // 3) Forecast end of month (total monthly forecast from CE API)
   let forecast = monthToDate;
   try {
     const forecastResp = await ce.send(
@@ -115,8 +115,7 @@ export const handler = async () => {
         Granularity: "MONTHLY",
       }),
     );
-    const forecastExtra = round6(forecastResp.Total?.Amount ?? "0");
-    forecast = round6(monthToDate + forecastExtra);
+    forecast = round6(forecastResp.Total?.Amount ?? monthToDate);
   } catch {
     // Fallback if forecast is unavailable early in cycle.
     forecast = monthToDate;
