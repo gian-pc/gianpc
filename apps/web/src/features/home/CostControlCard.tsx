@@ -9,7 +9,6 @@ type CostPayload = {
   updatedAt: string;
   monthToDate: number;
   forecast: number;
-  costExplorerApi?: number;
   services: CostService[];
 };
 type ServiceVisualKey = "lambda" | "cloudfront" | "s3" | "cost-explorer" | "tax" | "other";
@@ -38,7 +37,7 @@ function classifyService(name: string): { key: ServiceVisualKey; label: string }
 function serviceIcon(key: ServiceVisualKey) {
   if (key === "lambda") return "λ";
   if (key === "cloudfront") return "☁";
-  if (key === "s3") return "▣";
+  if (key === "s3") return "🪣";
   if (key === "cost-explorer") return "$";
   if (key === "tax") return "%";
   return "•";
@@ -50,7 +49,6 @@ function formatKpiAmount(value: number) {
 }
 
 function formatServiceAmount(value: number) {
-  if (value > 0 && value < 0.01) return "< 0.01";
   return value.toFixed(2);
 }
 
@@ -70,7 +68,6 @@ export function CostControlCard() {
           servicesLabel: "Top servicios",
           impactLabel: "Costo por servicio",
           barsBasis: "% del acumulado mensual",
-          ceApi: "API Cost Explorer (estimado)",
         }
       : {
           cardLabel: "AWS cost control",
@@ -83,7 +80,6 @@ export function CostControlCard() {
           servicesLabel: "Top services",
           impactLabel: "Cost by service",
           barsBasis: "% of month-to-date total",
-          ceApi: "Cost Explorer API (estimated)",
         };
 
   useEffect(() => {
@@ -134,23 +130,13 @@ export function CostControlCard() {
 
   const services = useMemo(() => {
     const raw = data?.services?.length ? data.services : FALLBACK_SERVICES;
-    const prioritizedOrder: Partial<Record<ServiceVisualKey, number>> = {
-      s3: 0,
-      cloudfront: 1,
-      lambda: 2,
-    };
 
     return raw
       .map((s) => {
-      const visual = classifyService(s.name);
-      return { key: visual.key, name: visual.label, amount: toNumber(s.amount) };
+        const visual = classifyService(s.name);
+        return { key: visual.key, name: visual.label, amount: toNumber(s.amount) };
       })
-      .sort((a, b) => {
-        const aRank = prioritizedOrder[a.key] ?? 99;
-        const bRank = prioritizedOrder[b.key] ?? 99;
-        if (aRank !== bRank) return aRank - bRank;
-        return b.amount - a.amount;
-      });
+      .sort((a, b) => b.amount - a.amount);
   }, [data]);
 
   const updatedLabel = data?.updatedAt
@@ -165,12 +151,6 @@ export function CostControlCard() {
   const currency = data?.currency || "USD";
   const monthToDate = toNumber(data?.monthToDate);
   const forecast = toNumber(data?.forecast);
-  const costExplorerServiceAmount = services.find((service) => service.key === "cost-explorer")?.amount;
-  const ceApi = toNumber(
-    costExplorerServiceAmount != null && costExplorerServiceAmount > 0
-      ? costExplorerServiceAmount
-      : data?.costExplorerApi,
-  );
 
   return (
     <article className="cost-card" aria-label={copy.cardLabel}>
@@ -228,12 +208,6 @@ export function CostControlCard() {
           );
         })}
 
-        <div className="cost-service-extra">
-          <span className="cost-service-extra-label">{copy.ceApi}</span>
-          <span className="cost-service-extra-amount">
-            {currency} {ceApi.toFixed(2)}
-          </span>
-        </div>
       </section>
     </article>
   );
