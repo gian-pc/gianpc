@@ -49,6 +49,11 @@ function formatKpiAmount(value: number) {
   return value.toFixed(2);
 }
 
+function formatServiceAmount(value: number) {
+  if (value > 0 && value < 0.01) return "< 0.01";
+  return value.toFixed(2);
+}
+
 export function CostControlCard() {
   const [data, setData] = useState<CostPayload | null>(null);
   const { language } = useLanguage();
@@ -160,7 +165,12 @@ export function CostControlCard() {
   const currency = data?.currency || "USD";
   const monthToDate = toNumber(data?.monthToDate);
   const forecast = toNumber(data?.forecast);
-  const ceApi = toNumber(data?.costExplorerApi);
+  const costExplorerServiceAmount = services.find((service) => service.key === "cost-explorer")?.amount;
+  const ceApi = toNumber(
+    costExplorerServiceAmount != null && costExplorerServiceAmount > 0
+      ? costExplorerServiceAmount
+      : data?.costExplorerApi,
+  );
 
   return (
     <article className="cost-card" aria-label={copy.cardLabel}>
@@ -208,7 +218,7 @@ export function CostControlCard() {
                   <span>{service.name}</span>
                 </div>
                 <span className="cost-service-amount">
-                  {currency} {service.amount.toFixed(4)}
+                  {currency} {formatServiceAmount(service.amount)}
                 </span>
               </div>
               <div className="cost-service-bar" aria-hidden="true">
