@@ -2,7 +2,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="footer-shell">
+    <footer className="footer-shell">
       <div className="container-shell footer-inner">
         <div className="footer-brand">
           <span className="mono">© {year} gianpc.com</span>
