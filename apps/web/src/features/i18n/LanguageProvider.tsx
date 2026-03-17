@@ -23,11 +23,12 @@ export function useLanguage() {
 const STORAGE_KEY = "lang";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window === "undefined") return "es";
+  const [language, setLanguageState] = useState<Language>("es");
+
+  useEffect(() => {
     const saved = localStorage.getItem(STORAGE_KEY);
-    return saved === "en" ? "en" : "es";
-  });
+    if (saved === "en") setLanguageState("en");
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = language;
