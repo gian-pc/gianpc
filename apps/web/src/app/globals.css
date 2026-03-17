@@ -892,6 +892,19 @@ html:not(.dark) .hero-terminal-spot {
   gap: 14px;
 }
 
+.contact-honeypot {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+
 .contact-label {
   display: grid;
   gap: 8px;
@@ -953,9 +966,23 @@ html:not(.dark) .hero-terminal-spot {
   cursor: pointer;
 }
 
-.contact-actions p {
+.contact-submit:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.contact-status {
   font-size: 12px;
   color: var(--text-secondary);
+}
+
+.contact-status-success {
+  color: #22c55e;
+}
+
+.contact-status-error {
+  color: #f97316;
 }
 
 .contact-map-head p {

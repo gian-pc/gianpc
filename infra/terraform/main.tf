@@ -286,3 +286,123 @@ resource "aws_lambda_permission" "allow_eventbridge_cost_card_daily_sync" {
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.cost_card_daily_sync.arn
 }
+
+data "archive_file" "contact_form_lambda_zip" {
+  type        = "zip"
+  source_file = "${path.module}/../lambda/contact-form/index.mjs"
+  output_path = "${path.module}/.terraform/contact-form-lambda.zip"
+}
+
+resource "aws_ses_email_identity" "contact_form_sender" {
+  email = var.contact_form_from_email
+}
+
+resource "aws_ses_email_identity" "contact_form_recipient" {
+  count = var.contact_form_to_email != var.contact_form_from_email ? 1 : 0
+  email = var.contact_form_to_email
+}
+
+resource "aws_iam_role" "contact_form_lambda" {
+  name               = var.contact_form_role_name
+  description        = "Role for Lambda that sends contact form emails through SES"
+  assume_role_policy = data.aws_iam_policy_document.cost_card_lambda_assume_role.json
+}
+
+data "aws_iam_policy_document" "contact_form_lambda_permissions" {
+  statement {
+    sid    = "AllowLogsWrite"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+    resources = [
+      "arn:aws:logs:${var.aws_region}:${data.aws_caller_identity.current.account_id}:*",
+    ]
+  }
+
+  statement {
+    sid    = "AllowSesSendEmail"
+    effect = "Allow"
+    actions = [
+      "ses:SendEmail",
+      "ses:SendRawEmail",
+    ]
+    resources = [
+      aws_ses_email_identity.contact_form_sender.arn,
+    ]
+  }
+}
+
+resource "aws_iam_policy" "contact_form_lambda" {
+  name   = var.contact_form_policy_name
+  policy = data.aws_iam_policy_document.contact_form_lambda_permissions.json
+}
+
+resource "aws_iam_role_policy_attachment" "contact_form_lambda" {
+  role       = aws_iam_role.contact_form_lambda.name
+  policy_arn = aws_iam_policy.contact_form_lambda.arn
+}
+
+resource "aws_lambda_function" "contact_form_send_email" {
+  function_name    = var.contact_form_function_name
+  role             = aws_iam_role.contact_form_lambda.arn
+  runtime          = var.contact_form_lambda_runtime
+  handler          = "index.handler"
+  filename         = data.archive_file.contact_form_lambda_zip.output_path
+  source_code_hash = data.archive_file.contact_form_lambda_zip.output_base64sha256
+  memory_size      = var.contact_form_lambda_memory_size
+  timeout          = var.contact_form_lambda_timeout
+
+  environment {
+    variables = {
+      FROM_EMAIL      = var.contact_form_from_email
+      TO_EMAIL        = var.contact_form_to_email
+      ALLOWED_ORIGINS = join(",", var.contact_form_allowed_origins)
+    }
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.contact_form_lambda,
+  ]
+}
+
+resource "aws_apigatewayv2_api" "contact_form" {
+  name          = var.contact_form_api_name
+  protocol_type = "HTTP"
+
+  cors_configuration {
+    allow_origins = var.contact_form_allowed_origins
+    allow_methods = ["POST", "OPTIONS"]
+    allow_headers = ["content-type"]
+    max_age       = 300
+  }
+}
+
+resource "aws_apigatewayv2_integration" "contact_form_lambda" {
+  api_id                 = aws_apigatewayv2_api.contact_form.id
+  integration_type       = "AWS_PROXY"
+  integration_uri        = aws_lambda_function.contact_form_send_email.invoke_arn
+  payload_format_version = "2.0"
+}
+
+resource "aws_apigatewayv2_route" "contact_form_post" {
+  api_id    = aws_apigatewayv2_api.contact_form.id
+  route_key = "POST ${var.contact_form_route_path}"
+  target    = "integrations/${aws_apigatewayv2_integration.contact_form_lambda.id}"
+}
+
+resource "aws_apigatewayv2_stage" "contact_form" {
+  api_id      = aws_apigatewayv2_api.contact_form.id
+  name        = var.contact_form_api_stage_name
+  auto_deploy = true
+}
+
+resource "aws_lambda_permission" "allow_apigateway_contact_form" {
+  statement_id  = "AllowApiGatewayContactFormInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.contact_form_send_email.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_apigatewayv2_api.contact_form.execution_arn}/*/*"
+}
