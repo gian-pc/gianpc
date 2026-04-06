@@ -1,27 +1,133 @@
+"use client";
+
+import Link from "next/link";
+import type { ReactNode } from "react";
+import { useLanguage } from "@/features/i18n/LanguageProvider";
+
+type FooterLink = {
+  href: string;
+  label: string;
+  external?: boolean;
+  download?: boolean;
+  ariaLabel?: string;
+  icon: ReactNode;
+};
+
 export function Footer() {
   const year = new Date().getFullYear();
+  const { language } = useLanguage();
+
+  const copy =
+    language === "es"
+      ? {
+          title: "Backend, cloud y sistemas pensados para producción.",
+          description:
+            "Portfolio personal con foco en APIs, arquitectura moderna y productos listos para escalar.",
+          navTitle: "Explorar",
+          nav: [
+            { href: "/#inicio", label: "Inicio" },
+            { href: "/#projects", label: "Proyectos" },
+            { href: "/#contact", label: "Contacto" },
+          ],
+          actionsTitle: "Conectar",
+          availability: "Disponible para conversar sobre backend, cloud y oportunidades remotas.",
+          location: "Lima, Peru",
+          rights: `© ${year} gianpc.com`,
+        }
+      : {
+          title: "Backend, cloud, and systems built for production.",
+          description:
+            "Personal portfolio focused on APIs, modern architecture, and products ready to scale.",
+          navTitle: "Explore",
+          nav: [
+            { href: "/#inicio", label: "Home" },
+            { href: "/#projects", label: "Projects" },
+            { href: "/#contact", label: "Contact" },
+          ],
+          actionsTitle: "Connect",
+          availability: "Open to conversations about backend, cloud, and remote opportunities.",
+          location: "Lima, Peru",
+          rights: `© ${year} gianpc.com`,
+        };
+
+  const actions: FooterLink[] = [
+    {
+      href: "https://www.linkedin.com/in/gian-pc",
+      label: "LinkedIn",
+      external: true,
+      ariaLabel: "LinkedIn",
+      icon: <LinkedInIcon />,
+    },
+    {
+      href: "https://github.com/gian-pc",
+      label: "GitHub",
+      external: true,
+      ariaLabel: "GitHub",
+      icon: <GitHubIcon />,
+    },
+    {
+      href: "mailto:gpaucarcortez@gmail.com",
+      label: language === "es" ? "Correo" : "Email",
+      ariaLabel: language === "es" ? "Enviar correo" : "Send email",
+      icon: <MailIcon />,
+    },
+    {
+      href: "/CV_GianPaucarCortez.pdf",
+      label: "CV",
+      download: true,
+      ariaLabel: language === "es" ? "Descargar CV" : "Download CV",
+      icon: <DownloadIcon />,
+    },
+  ];
 
   return (
     <footer className="footer-shell">
-      <div className="container-shell footer-inner">
-        <div className="footer-brand">
-          <span className="mono">© {year} gianpc.com</span>
-          <p>gianpc</p>
-        </div>
+      <div className="container-shell">
+        <div className="footer-panel">
+          <div className="footer-grid">
+            <div className="footer-brand">
+              <h2 className="footer-title">{copy.title}</h2>
+              <p className="footer-description">{copy.description}</p>
+            </div>
 
-        <div className="footer-icons" aria-label="Redes y contacto">
-          <a href="https://www.linkedin.com/in/gian-pc" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-            <LinkedInIcon />
-          </a>
-          <a href="https://github.com/gian-pc" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <GitHubIcon />
-          </a>
-          <a href="mailto:gpaucarcortez@gmail.com" aria-label="Email">
-            <MailIcon />
-          </a>
-          <a href="/CV_GianPaucarCortez.pdf" download aria-label="Descargar CV">
-            <DownloadIcon />
-          </a>
+            <div className="footer-column">
+              <p className="footer-column-title">{copy.navTitle}</p>
+              <nav className="footer-nav" aria-label={copy.navTitle}>
+                {copy.nav.map((item) => (
+                  <Link key={item.href} href={item.href} className="footer-nav-link">
+                    {item.label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+
+            <div className="footer-column">
+              <p className="footer-column-title">{copy.actionsTitle}</p>
+              <p className="footer-availability">{copy.availability}</p>
+              <div className="footer-icons" aria-label={copy.actionsTitle}>
+                {actions.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="footer-icon-link"
+                    target={item.external ? "_blank" : undefined}
+                    rel={item.external ? "noopener noreferrer" : undefined}
+                    download={item.download}
+                    aria-label={item.ariaLabel ?? item.label}
+                    title={item.label}
+                  >
+                    {item.icon}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="footer-meta">
+            <span className="footer-meta-item mono">{copy.rights}</span>
+            <span className="footer-meta-separator" aria-hidden="true" />
+            <span className="footer-meta-item">{copy.location}</span>
+          </div>
         </div>
       </div>
     </footer>

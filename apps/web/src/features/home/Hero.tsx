@@ -10,18 +10,18 @@ export function Hero() {
       ? {
           titleLine: "Software",
           titleAccent: "Developer",
-          description: "Desarrollo APIs y sistemas backend escalables, con enfoque en arquitectura moderna y entornos cloud.",
+          description: "Construyo software que resuelve problemas reales, integrando Inteligencia Artificial en arquitecturas modernas y escalables.",
           ctaProjects: "Ver proyectos",
           ctaCv: "Descargar CV",
-          tags: ["Backend", "Microservices", "CI/CD", "Cloud"],
+          tags: ["Backend", "Microservices", "CI/CD", "Cloud", "IA"],
         }
       : {
           titleLine: "Software",
           titleAccent: "Developer",
-          description: "I build scalable APIs and backend systems, combining modern architecture and cloud.",
+          description: "I build software that solves real problems, integrating Artificial Intelligence into modern and scalable architectures.",
           ctaProjects: "View projects",
           ctaCv: "Download CV",
-          tags: ["Backend", "Microservices", "CI/CD", "Cloud"],
+          tags: ["Backend", "Microservices", "CI/CD", "Cloud", "AI"],
         };
 
   return (
