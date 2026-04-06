@@ -574,8 +574,8 @@ html:not(.dark) .hero-terminal-spot {
 }
 
 .cost-card-brand-logo {
-  width: 42px;
-  height: 17px;
+  width: 48px;
+  height: 20px;
   color: color-mix(in srgb, var(--text-primary) 86%, transparent);
   flex-shrink: 0;
 }
@@ -1717,8 +1717,8 @@ html:not(.dark) .hero-terminal-spot {
   }
 
   .cost-card-brand-logo {
-    width: 36px;
-    height: 15px;
+    width: 42px;
+    height: 17px;
   }
 
   .cost-card-head h3 {
