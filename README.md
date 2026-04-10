@@ -49,23 +49,54 @@ El repositorio esta organizado como un monorepo ligero con dos dominios principa
 ### Flujo de arquitectura
 
 ```text
-Usuario
-  -> Cloudflare (DNS)
-  -> CloudFront
-  -> S3 (sitio exportado de Next.js)
-       -> UI renderizada con assets estaticos
-       -> lectura de /aws/costs/latest.json
-
-CloudWatch/EventBridge
-  -> Lambda cost-card
-  -> AWS Cost Explorer
-  -> S3 /aws/costs/latest.json
-
-Formulario de contacto en la UI
-  -> API Gateway HTTP
-  -> Lambda contact-form
-  -> Amazon SES
-  -> correo de destino
+                         +----------------------+
+                         | Usuario / Navegador  |
+                         +----------+-----------+
+                                    |
+                                    v
+                         +----------------------+
+                         |   Cloudflare (DNS)   |
+                         +----------+-----------+
+                                    |
+                                    v
+                         +----------------------+
+                         | CloudFront + ACM/OAC |
+                         +-----+-----------+----+
+                               |           |
+                               |           |
+                               v           v
+                  +------------------+   +----------------------+
+                  | S3 static site   |   | /aws/costs/latest    |
+                  | Next.js export   |   | JSON consumido por   |
+                  | HTML/CSS/JS/img  |   | el frontend          |
+                  +--------+---------+   +----------^-----------+
+                           |                        |
+                           |                        |
+                           |              +---------+----------+
+                           |              | Lambda cost-card   |
+                           |              | consulta costos AWS|
+                           |              +---------+----------+
+                           |                        |
+                           |                        v
+                           |              +--------------------+
+                           |              | AWS Cost Explorer  |
+                           |              +--------------------+
+                           |
+                           |  POST contacto
+                           v
+                  +----------------------+
+                  | API Gateway HTTP API |
+                  +----------+-----------+
+                             |
+                             v
+                  +----------------------+
+                  | Lambda contact-form  |
+                  +----------+-----------+
+                             |
+                             v
+                  +----------------------+
+                  | Amazon SES / Email   |
+                  +----------------------+
 ```
 
 ### Decision arquitectonica
