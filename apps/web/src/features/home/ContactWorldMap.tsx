@@ -157,10 +157,10 @@ export function ContactWorldMap({ timezoneLabel = "UTC-5 · Lima" }: ContactWorl
         </g>
 
         <g className="contact-world-marker" transform={`translate(${limaX} ${limaY})`}>
-          <circle className="contact-world-wave contact-world-wave-1" cx="0" cy="0" r="6.8" />
-          <circle className="contact-world-wave contact-world-wave-2" cx="0" cy="0" r="6.8" />
-          <circle className="contact-world-ring" cx="0" cy="0" r="7.8" />
-          <circle className="contact-world-dot" cx="0" cy="0" r="4.9" />
+          <circle className="contact-world-wave contact-world-wave-1" cx="0" cy="0" r="9.2" />
+          <circle className="contact-world-wave contact-world-wave-2" cx="0" cy="0" r="9.2" />
+          <circle className="contact-world-ring" cx="0" cy="0" r="10.4" />
+          <circle className="contact-world-dot" cx="0" cy="0" r="6.3" />
         </g>
       </svg>
 
