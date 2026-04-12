@@ -23,7 +23,7 @@ export function Footer() {
       ? {
           title: "Backend, cloud y sistemas pensados para producción.",
           description:
-            "Portfolio personal con foco en APIs, arquitectura moderna y productos listos para escalar.",
+            "Diseño y construyo APIs, arquitectura moderna y productos listos para escalar.",
           navTitle: "Explorar",
           nav: [
             { href: "/#inicio", label: "Inicio" },
@@ -38,7 +38,7 @@ export function Footer() {
       : {
           title: "Backend, cloud, and systems built for production.",
           description:
-            "Personal portfolio focused on APIs, modern architecture, and products ready to scale.",
+            "I design and build APIs, modern architecture, and products ready to scale.",
           navTitle: "Explore",
           nav: [
             { href: "/#inicio", label: "Home" },
