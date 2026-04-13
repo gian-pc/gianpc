@@ -32,7 +32,7 @@ export function Footer() {
           ],
           actionsTitle: "Conectar",
           availability: "Disponible para conversar sobre backend, cloud y oportunidades remotas.",
-          location: "Lima, Peru",
+          location: "Lima, Perú",
           rights: `© ${year} gianpc.com`,
         }
       : {
@@ -47,7 +47,7 @@ export function Footer() {
           ],
           actionsTitle: "Connect",
           availability: "Open to conversations about backend, cloud, and remote opportunities.",
-          location: "Lima, Peru",
+          location: "Lima, Perú",
           rights: `© ${year} gianpc.com`,
         };
 
