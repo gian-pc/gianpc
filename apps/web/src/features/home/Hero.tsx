@@ -2,7 +2,6 @@
 
 import { CostControlCard } from "./CostControlCard";
 import { useLanguage } from "@/features/i18n/LanguageProvider";
-import { CV_FILENAME, CV_URL } from "@/types/cv";
 
 export function Hero() {
   const { language } = useLanguage();
@@ -13,7 +12,6 @@ export function Hero() {
           titleAccent: "Developer",
           description: "Construyo software que resuelve problemas reales, integrando Inteligencia Artificial en arquitecturas modernas y escalables.",
           ctaProjects: "Ver proyectos",
-          ctaCv: "Descargar CV",
           tags: ["Backend", "Microservices", "CI/CD", "Cloud", "IA"],
         }
       : {
@@ -21,7 +19,6 @@ export function Hero() {
           titleAccent: "Developer",
           description: "I build software that solves real problems, integrating Artificial Intelligence into modern and scalable architectures.",
           ctaProjects: "View projects",
-          ctaCv: "Download CV",
           tags: ["Backend", "Microservices", "CI/CD", "Cloud", "AI"],
         };
 
@@ -47,9 +44,6 @@ export function Hero() {
           <div className="hero-actions">
             <a href="#projects" className="hero-btn hero-btn-primary">
               {copy.ctaProjects}
-            </a>
-            <a href={CV_URL} download={CV_FILENAME} className="hero-btn hero-btn-secondary">
-              {copy.ctaCv}
             </a>
           </div>
 

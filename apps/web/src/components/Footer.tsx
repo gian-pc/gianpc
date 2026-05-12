@@ -3,13 +3,11 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { useLanguage } from "@/features/i18n/LanguageProvider";
-import { CV_FILENAME, CV_URL } from "@/types/cv";
 
 type FooterLink = {
   href: string;
   label: string;
   external?: boolean;
-  download?: boolean;
   ariaLabel?: string;
   icon: ReactNode;
 };
@@ -72,13 +70,6 @@ export function Footer() {
       ariaLabel: language === "es" ? "Enviar correo" : "Send email",
       icon: <MailIcon />,
     },
-    {
-      href: CV_URL,
-      label: "CV",
-      download: true,
-      ariaLabel: language === "es" ? "Descargar CV" : "Download CV",
-      icon: <DownloadIcon />,
-    },
   ];
 
   return (
@@ -113,7 +104,6 @@ export function Footer() {
                     className="footer-icon-link"
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
-                    download={item.download ? CV_FILENAME : undefined}
                     aria-label={item.ariaLabel ?? item.label}
                     title={item.label}
                   >
@@ -156,16 +146,6 @@ function MailIcon() {
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
       <path d="M4 6h16v12H4z" />
       <path d="m4 7 8 6 8-6" />
-    </svg>
-  );
-}
-
-function DownloadIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden="true">
-      <path d="M12 3v12" />
-      <path d="m7 11 5 5 5-5" />
-      <path d="M5 21h14" />
     </svg>
   );
 }
